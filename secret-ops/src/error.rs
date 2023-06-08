@@ -33,4 +33,8 @@ pub enum Error {
     #[cfg(feature = "infisical")]
     #[error("Decrypt error: {0}")]
     DecryptErr(aes_gcm::Error),
+
+    #[cfg(feature = "toml")]
+    #[error("TOML deserialize error: {0}")]
+    TomlDeserializeErr(#[from] toml::de::Error),
 }

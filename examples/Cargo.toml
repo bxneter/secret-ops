@@ -9,7 +9,12 @@ name = "infisical"
 path = "infisical/main.rs"
 
 
+[[example]]
+name = "toml"
+path = "toml/main.rs"
+
+
 [dependencies]
-secret-ops = { path = "../secret-ops", features = ["infisical"] }
+secret-ops = { path = "../secret-ops", features = ["infisical", "toml"] }
 serde      = { version = "1", features = ["derive"] }
 tokio      = { version = "1", features = ["macros", "rt-multi-thread"] }

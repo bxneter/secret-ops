@@ -1,6 +1,8 @@
 mod error;
 #[cfg(feature = "infisical")]
 pub mod infisical;
+#[cfg(feature = "toml")]
+pub mod toml;
 pub use crate::error::{Error, Result};
 use async_trait::async_trait;
 use serde::de::DeserializeOwned;
@@ -25,7 +27,17 @@ pub trait SecretOps {
         Self: Sized + Sync,
     {
         for (key, value) in self.get_kv_secrets().await? {
-            std::env::set_var(key, value);
+            match (std::env::var(key.to_lowercase()), std::env::var(key.to_uppercase())) {
+                (Ok(_), Err(_)) => std::env::remove_var(key.to_lowercase()),
+                (Err(_), Ok(_)) => std::env::remove_var(key.to_uppercase()),
+                (Ok(_), Ok(_)) => {
+                    std::env::remove_var(key.to_lowercase());
+                    std::env::remove_var(key.to_uppercase());
+                }
+                _ => {}
+            };
+
+            std::env::set_var(key.to_uppercase(), value);
         }
 
         Ok(self)
