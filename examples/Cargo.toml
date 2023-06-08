@@ -1,0 +1,15 @@
+[package]
+edition = "2021"
+name    = "examples"
+version = "0.1.0"
+
+
+[[example]]
+name = "infisical"
+path = "infisical/main.rs"
+
+
+[dependencies]
+secret-ops = { path = "../secret-ops", features = ["infisical"] }
+serde      = { version = "1", features = ["derive"] }
+tokio      = { version = "1", features = ["macros", "rt-multi-thread"] }

@@ -1,1 +1,1 @@
-# secret-ops
+# SecretOps
